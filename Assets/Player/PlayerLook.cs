@@ -18,7 +18,6 @@ public class PlayerLook : MonoBehaviour
     {
         lookSensitivity = unZoomedSensitivity;
         // cam = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<Camera>();
-        GetComponent<Rigidbody>().useGravity = false;
         locked = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

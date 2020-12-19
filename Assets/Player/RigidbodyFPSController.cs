@@ -44,7 +44,7 @@ public class RigidbodyFPSController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         collider = GetComponent<Collider>();
-        rb.useGravity = false;
+        rb.useGravity = true;
     }
     void Update()
     {
@@ -188,17 +188,18 @@ public class RigidbodyFPSController : MonoBehaviour
     }
     void MovePos(Vector3 destination, bool sf)
     {
-        // Pitch footsteps according to walk speed
-        float pitchMod = rb.velocity.magnitude / 25f;
-        if (pitchMod > sprintMultiplier) audioSource.pitch = Mathf.Clamp(rb.velocity.magnitude / 25f, 1f, sprintMultiplier * 2);
-        else if (sf) audioSource.pitch = sprintMultiplier;
-        else audioSource.pitch = 1f;
-        // yield return null;
         if (audioSource != null && walk != null)
         {
+            // Pitch footsteps according to walk speed
+            float pitchMod = rb.velocity.magnitude / 25f;
+            if (pitchMod > sprintMultiplier) audioSource.pitch = Mathf.Clamp(rb.velocity.magnitude / 25f, 1f, sprintMultiplier * 2);
+            else if (sf) audioSource.pitch = sprintMultiplier;
+            else audioSource.pitch = 1f;
+            // yield return null;
+
             if (!audioSource.isPlaying && grounded) audioSource.PlayOneShot(walk);
         }
-        rb.MovePosition(destination);
+        rb.MovePosition(destination + transform.up * collider.bounds.size.y/2);
     }
     void Jump(Vector3 normal, int jumpCounter)
     {
